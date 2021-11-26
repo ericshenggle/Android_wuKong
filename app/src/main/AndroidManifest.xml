@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="edu.cn.WuKongadminister">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/appcon"
+        android:label="悟空垃圾识别app"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="edu.cn.WuKongadminister.QueryActivity" />
+        <activity android:name="edu.cn.WuKongadminister.AddActivity" />
+        <activity android:name="edu.cn.WuKongadminister.RegisterActivity" />
+        <activity android:name="edu.cn.WuKongadminister.MainActivity" />
+        <activity android:name="edu.cn.WuKongadminister.LoginActivity"/>
+        <activity android:name="edu.cn.WuKongadminister.WelcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
