@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:gravity="center"
-            android:text="注册管理员"
+            android:text="注册用户"
             android:textSize="30sp"
             android:textColor="#516D2C"/>
 

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg3">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:gravity="center"
+            android:text="调取悟空摄像头进行垃圾识别"
+            android:textSize="30sp"
+            android:textColor="#516D2C"/>
+
+        <TextView
+            android:id="@+id/process"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="未获取照片"
+            android:textSize="20sp"
+            android:textColor="#516D2C"/>
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:src="@drawable/usercre"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"/>
+
+        <Button
+            android:id="@+id/btn_pic"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="拍照"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/btn_selector"
+            android:layout_marginTop="10dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="识别结果："
+                android:textSize="20sp"
+                android:gravity="center"
+                android:textColor="#000000"/>
+            <TextView
+                android:id="@+id/ans"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textColor="#516D2C"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_recog"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="识别"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/btn_selector"
+            android:layout_marginTop="10dp"/>
+
+        <Button
+            android:id="@+id/btn_info"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="查看垃圾分类知识"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/btn_selector"
+            android:layout_marginTop="10dp"/>
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="返回"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/btn_selector"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+</ScrollView>
+
+</RelativeLayout>

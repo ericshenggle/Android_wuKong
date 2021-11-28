@@ -28,10 +28,20 @@
             android:layout_gravity="center"/>
 
         <Button
+            android:id="@+id/bt_show"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="悟空控制台"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/btn_selector"
+            android:textSize="20sp"
+            android:layout_margin="10dp"/>
+
+        <Button
             android:id="@+id/bt_createe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="添加"
+            android:text="识别垃圾"
             android:textColor="#FFFFFF"
             android:background="@drawable/btn_selector"
             android:textSize="20sp"

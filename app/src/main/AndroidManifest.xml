@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.cn.WuKongadminister">
+    <uses-permission android:name="com.ubtrobot.master.permission.MASTER"/>
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <application
+        android:name="edu.cn.WuKongadminister.App"
         android:allowBackup="true"
         android:icon="@drawable/appcon"
         android:label="悟空垃圾识别app"
@@ -14,10 +23,11 @@
         <activity android:name="edu.cn.WuKongadminister.RegisterActivity" />
         <activity android:name="edu.cn.WuKongadminister.MainActivity" />
         <activity android:name="edu.cn.WuKongadminister.LoginActivity"/>
+        <activity android:name="edu.cn.WuKongadminister.ShowWuKongInfoActivity"/>
+        <activity android:name="edu.cn.WuKongadminister.ShowRubInfoActivity"/>
         <activity android:name="edu.cn.WuKongadminister.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

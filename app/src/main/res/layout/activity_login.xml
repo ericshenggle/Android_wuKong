@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:gravity="center"
-        android:text="欢迎进入图书管理系统"
+        android:text="欢迎进入悟空管理系统"
         android:textColor="#516D2C"
         android:textSize="26sp" />
 

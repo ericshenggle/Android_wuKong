@@ -1,7 +1,6 @@
 package edu.cn.WuKongadminister;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,10 +9,12 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class QueryActivity extends AppCompatActivity implements View.OnClickListener {
+public class QueryActivity extends Activity implements View.OnClickListener {
     //定义组件
     private ListView listView=null;
     private Button bt_delete;
@@ -36,6 +37,7 @@ public class QueryActivity extends AppCompatActivity implements View.OnClickList
         dao.open();
         //调用数据库访问方法
         List<Map<String,Object>> mOrderData=dao.getAllRubbish();
+
         //获取组件
         listView=(ListView)findViewById(R.id.lst_orders);
         //定义数据源
@@ -43,6 +45,7 @@ public class QueryActivity extends AppCompatActivity implements View.OnClickList
         //定义布局控件ID
         int[] to={R.id.tv_lst_time,R.id.tv_lst_name};
         if (mOrderData != null) {
+            Collections.reverse(mOrderData);
             SimpleAdapter listItemAdapter = new SimpleAdapter(QueryActivity.this, mOrderData, R.layout.item_list, from, to);
             //添加并显示
             listView.setAdapter(listItemAdapter);

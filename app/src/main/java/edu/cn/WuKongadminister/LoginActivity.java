@@ -1,7 +1,6 @@
 package edu.cn.WuKongadminister;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class  LoginActivity extends AppCompatActivity {
+public class  LoginActivity extends Activity {
     private Button login;
     private TextView tv_register;
     private EditText et_username,et_pwd;

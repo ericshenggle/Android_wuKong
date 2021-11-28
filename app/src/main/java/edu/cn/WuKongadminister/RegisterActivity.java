@@ -1,6 +1,6 @@
 package edu.cn.WuKongadminister;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends Activity {
     private EditText et_username,et_pwd,et_pwd_sure;
     private Button register;
     private String userName,passWord,passWord_sure;
@@ -104,7 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
         //key,value,如键值对，editor.putString(用户名，密码）;
         editor.putString(userName, md5Psw);
         //提交修改 editor.commit();
-        editor.commit();
+        editor.apply();
     }
     public void onBackPressed() {
         Intent intent = new Intent();
