@@ -11,6 +11,7 @@
 
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <application
+        android:usesCleartextTraffic="true"
         android:name="edu.cn.WuKongadminister.App"
         android:allowBackup="true"
         android:icon="@drawable/appcon"

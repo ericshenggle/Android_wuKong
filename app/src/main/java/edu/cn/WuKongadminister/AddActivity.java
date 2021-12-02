@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +25,17 @@ import com.ubtrobot.transport.message.Request;
 import com.ubtrobot.transport.message.Response;
 import com.ubtrobot.transport.message.ResponseCallback;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -97,6 +108,7 @@ public class AddActivity extends Activity implements View.OnClickListener {
             //输入图片this.bitmap
             //输出识别结果等并将其保存在name变量中
             //this.name = ...
+            sentBitmap(this.bitmap);
 
             boolean success = false;//是否识别成功
             if (success) {
@@ -151,6 +163,69 @@ public class AddActivity extends Activity implements View.OnClickListener {
         } else if (v.getId() == R.id.btn_back) {
             finish();
         }
+    }
+
+    private void sentBitmap(Bitmap bitmap) {
+        new Thread(new Runnable() {
+            private Bitmap bitmap;
+
+            @Override
+            public void run() {
+                try {
+                    //new一个访问的url
+                    URL url = new URL("http://10.0.2.2:8000/login/");
+                    //创建HttpURLConnection 实例
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    //提交数据的方式
+                    connection.setRequestMethod("POST");
+                    connection.setDoOutput(true);
+                    //设置超时时间
+                    connection.setConnectTimeout(8000);//连接超时
+                    //读取超时
+                    connection.setReadTimeout(8000);
+                    //连接打开输出流
+                    OutputStream os = connection.getOutputStream();
+                    String bit;
+                    if (bitmap != null) {
+                        bit = bitmaptoString(bitmap, 0);
+                    } else {
+                        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
+                        bit = bitmaptoString(bitmap, 0);
+                    }
+//                    Log.i("img", bit);
+                    //jsons数据拼接
+                    JSONObject json = new JSONObject();
+                    json.put("img", bit);
+//                    Log.i("json", json.toString());
+                    //数据写入输出流（发送）
+                    os.write(json.toString().getBytes());
+                    if (connection.getResponseCode() == 200) {
+                        //接收服务器输入流信息
+                        InputStream is = connection.getInputStream();
+                        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                        //拿到信息
+                        String  result = br.readLine();
+                        Log.i("返回数据：", result);
+                        is.close();
+                        os.close();
+                        connection.disconnect();
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    public String bitmaptoString(Bitmap bitmap, int bitmapQuality) {
+        // 将Bitmap转换成字符串
+         String string = null;
+         ByteArrayOutputStream bStream = new ByteArrayOutputStream();
+         bitmap.compress(Bitmap.CompressFormat.PNG, bitmapQuality, bStream);
+         byte[] bytes = bStream.toByteArray();
+         string = Base64.encodeToString(bytes, Base64.DEFAULT);
+         return string;
     }
 
     private void setText(String s) {
