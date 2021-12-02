@@ -38,7 +38,7 @@ public class RubbishDAO {
         }
     }
 
-    //添加借书信息
+    //添加垃圾信息
     public long addRubbish(Rubbish o) {
         // 创建ContentValues对象
         ContentValues values = new ContentValues();
@@ -54,7 +54,7 @@ public class RubbishDAO {
         db.execSQL("delete from tb");
     }
 
-    //查找所有借书信息
+    //查找所有垃圾信息
     public ArrayList<Map<String, Object>> getAllRubbish() {
         ArrayList<Map<String, Object>> listBooks = new ArrayList<Map<String, Object>>();
         Cursor cursor = db.query("tb", null, null, null, null, null,null);
