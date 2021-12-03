@@ -29,9 +29,14 @@
         <activity android:name="edu.cn.WuKongadminister.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".skill.RecognitionUnInterrutibleSkill"  android:exported="true">
+            <meta-data android:name="master.skill"  android:resource="@xml/demo_interruptible_skill" />
+        </service>
+
     </application>
 
 </manifest>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skill name="demo_interruptible"> <!-- skill 的名称自定义 -->
+    <call path="/demo_interruptible/startNod">
+    </call><!-- call path 必须与代码中的 @Call(path = "/demo_norec_unin_skill/startSkill") 这个保持一致 -->
+    <call path ="/demo_interruptible/startShake" /> <!-- 如果不需要语音触发可以不定义 intent-filter -->
+</skill>

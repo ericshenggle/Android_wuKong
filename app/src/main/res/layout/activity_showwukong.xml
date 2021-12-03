@@ -5,48 +5,58 @@
     android:background="@drawable/bg"
     android:orientation="vertical"
     android:padding="5dp" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="100dp"
-            android:text="系统相关:"
-            android:textSize="35dp"
-            />
-        <Button
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="upgrade"
-            android:text="更新"
-            android:textAllCaps="false"
-            android:background="@drawable/btn_selector"
-            />
+            android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="100dp"
+                            android:text="系统相关:"
+                            android:textSize="35dp"
+                            />
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:onClick="upgrade"
+                            android:text="更新"
+                            android:textAllCaps="false"
+                            android:background="@drawable/btn_selector"
+                            />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="shutdown"
-            android:text="关机"
-            android:textAllCaps="false"
-            android:background="@drawable/btn_selector"
-            />
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:onClick="shutdown"
+                            android:text="关机"
+                            android:textAllCaps="false"
+                            android:background="@drawable/btn_selector"
+                            />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="100dp"
-            android:text="电量相关:"
-            android:textSize="35dp"
-            />
-        <Button
-            android:textAllCaps="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="getCurrentBatteryInfo"
-            android:text="异步获取电量信息"
-            android:background="@drawable/btn_selector"
-            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="100dp"
+                            android:text="电量相关:"
+                            android:textSize="35dp"
+                            />
+                        <Button
+                            android:textAllCaps="false"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:onClick="getCurrentBatteryInfo"
+                            android:text="异步获取电量信息"
+                            android:background="@drawable/btn_selector"
+                            />
+                </LinearLayout>
+        </ScrollView>
+
 
 
 </LinearLayout>

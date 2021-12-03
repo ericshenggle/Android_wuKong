@@ -89,15 +89,6 @@ public class AddActivity extends Activity implements View.OnClickListener {
             //悟空摄像头模块
             setText("拍照中");
             takePicImmediately();
-            this.path = img.getPath();//path为图片路径
-            File file = new File(path);
-            if (file.exists()) {
-                this.bitmap = BitmapFactory.decodeFile(path);//bitmap为图片信息
-                ImageView img = findViewById(R.id.img);
-                img.setImageBitmap(this.bitmap);
-                Toast.makeText(this, "拍照成功", Toast.LENGTH_SHORT).show();
-            }
-            setText("拍照完成");
         } else if (v.getId() == R.id.btn_recog) {
             setText("识别中");
             // 调用机器学习的部分
@@ -112,9 +103,9 @@ public class AddActivity extends Activity implements View.OnClickListener {
 
             boolean success = false;//是否识别成功
             if (success) {
-                SkillHelper.startSkillByIntent("nod", null, getListener());
+                SkillHelper.startSkillByPath("/demo_interruptible/startNod", null);
             } else {
-                SkillHelper.startSkillByIntent("shake_head", null, getListener());
+                SkillHelper.startSkillByPath("/demo_interruptible/startShake", null);
             }
             Toast.makeText(this, "识别结束", Toast.LENGTH_SHORT).show();
 
@@ -173,7 +164,7 @@ public class AddActivity extends Activity implements View.OnClickListener {
             public void run() {
                 try {
                     //new一个访问的url
-                    URL url = new URL("http://10.0.2.2:8000/login/");
+                    URL url = new URL("http://10.136.119.148:8000/login/");     //替换成本机ip
                     //创建HttpURLConnection 实例
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     //提交数据的方式
@@ -242,13 +233,20 @@ public class AddActivity extends Activity implements View.OnClickListener {
     }
 
     class ImgListener implements ResponseListener<String> {
-        private String path = "";
 
         @Override
         public void onResponseSuccess(String string) {
-            String sdcardPath = System.getenv("EXTERNAL_STORAGE");
-            this.path = sdcardPath + string;
+            AddActivity.this.path = "/sdcard" + string;
             Toast.makeText(getApplicationContext(), "saving " + string, Toast.LENGTH_LONG).show();
+            AddActivity.this.path = img.getPath();//path为图片路径
+            File file = new File(path);
+            if (file.exists()) {
+                AddActivity.this.bitmap = BitmapFactory.decodeFile(path);//bitmap为图片信息
+                ImageView img = findViewById(R.id.img);
+                img.setImageBitmap(AddActivity.this.bitmap);
+                Toast.makeText(AddActivity.this, "拍照成功", Toast.LENGTH_SHORT).show();
+            }
+            setText("拍照完成");
         }
 
         @Override
@@ -259,17 +257,5 @@ public class AddActivity extends Activity implements View.OnClickListener {
         public String getPath() {
             return path;
         }
-    }
-
-    @NonNull private ResponseCallback getListener() {
-        return new ResponseCallback() {
-            @Override public void onResponse(Request request, Response response) {
-                Log.i(TAG, "start success.");
-            }
-
-            @Override public void onFailure(Request request, CallException e) {
-                Log.i(TAG, e.getMessage());
-            }
-        };
     }
 }
