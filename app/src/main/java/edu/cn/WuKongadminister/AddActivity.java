@@ -209,7 +209,6 @@ public class AddActivity extends Activity implements View.OnClickListener {
                         is.close();
                         os.close();
                         connection.disconnect();
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -102,20 +102,6 @@ public class ShowWuKongInfoActivity extends Activity {
         });
     }
 
-    /**
-     * 同步获取当前电量信息
-     *
-     * @param view
-     */
-    public void getCurrentBatteryInfoSync(View view) {
-        SysMasterEvent.BatteryStatusData data = sysEventApi.getCurrentBatteryInfoSync();
-        Log.i(TAG, "getCurrentBatteryInfoSync接口调用成功！");
-        Log.i(TAG, "getCurrentBatteryInfoSync getStatus======" + data.getStatus());
-        Log.i(TAG, "getCurrentBatteryInfoSync getLevel======" + data.getLevel());
-        Log.i(TAG, "getCurrentBatteryInfoSync getLevelStatus======" + data.getLevelStatus());
-        Toast.makeText(getApplicationContext(), "BatteryStatusData getLevel======" + data.getLevel(), Toast.LENGTH_LONG).show();
-    }
-
     @Override
     protected void onDestroy() {
         unsubscribeAllReceivers();
