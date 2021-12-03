@@ -52,7 +52,7 @@ public class AddActivity extends Activity implements View.OnClickListener {
     private String path = "";
     private String name = "";
     private Bitmap bitmap = null;
-    private ImgListener img = new ImgListener();;
+    private ImgListener img = new ImgListener();
 
 
     @Override
@@ -70,16 +70,16 @@ public class AddActivity extends Activity implements View.OnClickListener {
 
     //初始化界面
     private void initView() {
-        btnPic = (Button) findViewById(R.id.btn_pic);
+        btnPic = findViewById(R.id.btn_pic);
         btnPic.setOnClickListener(this);
 
-        btnRecog = (Button) findViewById(R.id.btn_recog);
+        btnRecog = findViewById(R.id.btn_recog);
         btnRecog.setOnClickListener(this);
 
-        btnInfo = (Button) findViewById(R.id.btn_info);
+        btnInfo = findViewById(R.id.btn_info);
         btnInfo.setOnClickListener(this);
 
-        btnBack = (Button) findViewById(R.id.btn_back);
+        btnBack = findViewById(R.id.btn_back);
         btnBack.setOnClickListener(this);
     }
 
@@ -189,7 +189,7 @@ public class AddActivity extends Activity implements View.OnClickListener {
                     if (bitmap != null) {
                         bit = bitmaptoString(bitmap, 0);
                     } else {
-                        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
+                        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg);   //测试用图
                         bit = bitmaptoString(bitmap, 0);
                     }
 //                    Log.i("img", bit);
@@ -219,7 +219,7 @@ public class AddActivity extends Activity implements View.OnClickListener {
 
     public String bitmaptoString(Bitmap bitmap, int bitmapQuality) {
         // 将Bitmap转换成字符串
-         String string = null;
+         String string;
          ByteArrayOutputStream bStream = new ByteArrayOutputStream();
          bitmap.compress(Bitmap.CompressFormat.PNG, bitmapQuality, bStream);
          byte[] bytes = bStream.toByteArray();
