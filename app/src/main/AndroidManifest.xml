@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.cn.WuKongadminister">
     <uses-permission android:name="com.ubtrobot.master.permission.MASTER"/>
-
+    <uses-permission android:name="com.ubtrobot.master.permission.MASTER_SYSTEM_SERVICE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET" />
@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
     <application
         android:usesCleartextTraffic="true"
         android:name="edu.cn.WuKongadminister.App"
@@ -19,7 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="edu.cn.WuKongadminister.QueryActivity" />
+
+    <activity android:name="edu.cn.WuKongadminister.QueryActivity" />
         <activity android:name="edu.cn.WuKongadminister.AddActivity" />
         <activity android:name="edu.cn.WuKongadminister.RegisterActivity" />
         <activity android:name="edu.cn.WuKongadminister.MainActivity" />

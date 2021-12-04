@@ -27,13 +27,18 @@ import com.ubtrobot.transport.message.ResponseCallback;
 
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -46,6 +51,7 @@ public class AddActivity extends Activity implements View.OnClickListener {
     private Button btnPic;
     private Button btnRecog;
     private Button btnInfo;
+    private Button btnPut;
     private Button btnBack;
     private static final String TAG = App.DEBUG_TAG;
     private TakePicApi takePicApi;
@@ -75,7 +81,8 @@ public class AddActivity extends Activity implements View.OnClickListener {
 
         btnRecog = findViewById(R.id.btn_recog);
         btnRecog.setOnClickListener(this);
-
+        btnPut = findViewById(R.id.btn_put);
+        btnPut.setOnClickListener(this);
         btnInfo = findViewById(R.id.btn_info);
         btnInfo.setOnClickListener(this);
 
@@ -91,62 +98,46 @@ public class AddActivity extends Activity implements View.OnClickListener {
             takePicImmediately();
         } else if (v.getId() == R.id.btn_recog) {
             setText("识别中");
-            // 调用机器学习的部分
-            /*
-
-
-            */
-            //输入图片this.bitmap
-            //输出识别结果等并将其保存在name变量中
-            //this.name = ...
-            sentBitmap(this.bitmap);
-
-            boolean success = false;//是否识别成功
-            if (success) {
-                SkillHelper.startSkillByPath("/demo_interruptible/startNod", null);
+            sentBitmap();
+        } else if (v.getId() == R.id.btn_put) {
+            if (name.equals("")) {
+                Toast.makeText(this, "未识别完成请等待", Toast.LENGTH_SHORT).show();
             } else {
-                SkillHelper.startSkillByPath("/demo_interruptible/startShake", null);
+                Toast.makeText(this, "识别完成", Toast.LENGTH_SHORT).show();
+                TextView textView = findViewById(R.id.ans);
+                textView.setText(name);
+                boolean success = true;//是否识别成功
+                if (success) {
+                    SkillHelper.startSkillByPath("/demo_interruptible/startNod", null);
+                } else {
+                    SkillHelper.startSkillByPath("/demo_interruptible/startShake", null);
+                }
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间
+                sdf.applyPattern("yyyy-MM-dd HH:mm:ss a");// a为am/pm的标记
+                Date date = new Date();// 获取当前时间
+                String time = sdf.format(new Date(date.getTime() + (long) 8 * 60 * 60 * 1000));
+                Rubbish o = new Rubbish(time, name);
+                //创建数据库访问对象
+                RubbishDAO dao = new RubbishDAO(getApplicationContext());
+                //打开数据库
+                dao.open();
+                //执行数据库访问方法
+                long result1 = dao.addRubbish(o);
+                setText("识别完成");
+                //关闭数据库
+                dao.close();
+                // 调用语言播报Api
+                /*
+
+
+                 */
+                //将name播报出来
             }
-            Toast.makeText(this, "识别结束", Toast.LENGTH_SHORT).show();
-
-
-            TextView textView = findViewById(R.id.ans);
-            textView.setText(this.name);
-            String name = this.name;
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间
-            sdf.applyPattern("yyyy-MM-dd HH:mm:ss a");// a为am/pm的标记
-            Date date = new Date(System.currentTimeMillis());// 获取当前时间
-            String time = sdf.format(new Date(date.getTime() + (long) 8 * 60 * 60 * 1000));
-            Rubbish o = new Rubbish(time, name);
-            //创建数据库访问对象
-            RubbishDAO dao = new RubbishDAO(getApplicationContext());
-            //打开数据库
-            dao.open();
-            //执行数据库访问方法
-            long result = dao.addRubbish(o);
-
-            if (result > 0) {
-                Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "添加失败", Toast.LENGTH_SHORT).show();
-            }
-            //关闭数据库
-            dao.close();
-
-
-
-
-            // 调用语言播报Api
-            /*
-
-
-            */
-            //将this.name播报出来
-            setText("识别完成");
         } else if (v.getId() == R.id.btn_info) {
             if (!this.name.equals("1")) {
                 Intent intent = new Intent(AddActivity.this, ShowRubInfoActivity.class);
-                intent.putExtra("data", this.name);
+                String[] item = name.split("/");
+                intent.putExtra("data", item[0]);
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "未识别为垃圾不能查看更多信息", Toast.LENGTH_SHORT).show();
@@ -156,15 +147,13 @@ public class AddActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private void sentBitmap(Bitmap bitmap) {
+    private void sentBitmap() {
         new Thread(new Runnable() {
-            private Bitmap bitmap;
-
             @Override
             public void run() {
                 try {
                     //new一个访问的url
-                    URL url = new URL("http://10.136.119.148:8000/login/");     //替换成本机ip
+                    URL url = new URL("http://192.168.20.36:8000");        //热点ip
                     //创建HttpURLConnection 实例
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     //提交数据的方式
@@ -177,12 +166,10 @@ public class AddActivity extends Activity implements View.OnClickListener {
                     //连接打开输出流
                     OutputStream os = connection.getOutputStream();
                     String bit;
-                    if (bitmap != null) {
-                        bit = bitmaptoString(bitmap, 0);
-                    } else {
+                    if (bitmap == null) {
                         bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg);   //测试用图
-                        bit = bitmaptoString(bitmap, 0);
                     }
+                    bit = bitmaptoString(bitmap, 30);
 //                    Log.i("img", bit);
                     //jsons数据拼接
                     JSONObject json = new JSONObject();
@@ -197,6 +184,7 @@ public class AddActivity extends Activity implements View.OnClickListener {
                         //拿到信息
                         String  result = br.readLine();
                         Log.i("返回数据：", result);
+                        name = result;
                         is.close();
                         os.close();
                         connection.disconnect();

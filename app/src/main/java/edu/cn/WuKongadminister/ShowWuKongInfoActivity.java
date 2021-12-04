@@ -41,7 +41,12 @@ public class ShowWuKongInfoActivity extends Activity {
     }
 
     public void shutdown(View view) {
-        SkillHelper.startSkillByIntent("turn_off_robot", null, getListener());
+        SkillHelper.startSkillByIntent("关机", null, getListener());
+    }
+
+
+    public void standby(View view) {
+        SkillHelper.startSkillByIntent("待机", null, getListener());
     }
 
     @NonNull

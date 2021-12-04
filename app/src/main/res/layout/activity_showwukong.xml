@@ -38,11 +38,20 @@
                             android:background="@drawable/btn_selector"
                             />
 
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:onClick="standby"
+                            android:text="待机"
+                            android:textAllCaps="false"
+                            android:background="@drawable/btn_selector"
+                            />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="100dp"
+                            android:layout_marginTop="20dp"
                             android:text="电量相关:"
                             android:textSize="35dp"
                             />

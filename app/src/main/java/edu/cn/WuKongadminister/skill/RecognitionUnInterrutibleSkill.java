@@ -4,15 +4,11 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.google.protobuf.StringValue;
 import com.ubtech.utilcode.utils.thread.HandlerUtils;
 import com.ubtechinc.skill.ProxySkill;
-import com.ubtechinc.skill.SkillApi;
 import com.ubtechinc.skill.SkillHelper;
 import com.ubtechinc.skill.SkillType;
-import com.ubtrobot.commons.ResponseListener;
 import com.ubtrobot.master.annotation.Call;
-import com.ubtrobot.master.param.ProtoParam;
 import com.ubtrobot.master.skill.SkillStopCause;
 import com.ubtrobot.mini.sysevent.event.base.KeyEvent;
 import com.ubtrobot.speech.protos.Speech;
@@ -21,8 +17,6 @@ import com.ubtrobot.transport.message.Request;
 import com.ubtrobot.transport.message.Responder;
 import com.ubtrobot.transport.message.Response;
 import com.ubtrobot.transport.message.ResponseCallback;
-
-import java.util.List;
 
 public class RecognitionUnInterrutibleSkill extends ProxySkill {
 
@@ -44,14 +38,14 @@ public class RecognitionUnInterrutibleSkill extends ProxySkill {
     @Call(path = "/demo_interruptible/startNod")
     public void onStartNod(Request request, final Responder responder){
         Log.d(TAG,"onStartSkill---");
-        SkillHelper.startSkillByIntent("nod", null, getListener());
+        SkillHelper.startSkillByIntent("点头", null, getListener());
         responder.respondSuccess();
     }
 
     @Call(path = "/demo_interruptible/startShake")
     public void onStartShake(Request request, final Responder responder){
         Log.d(TAG,"onStartSkill---");
-        SkillHelper.startSkillByIntent("shake_head", null, getListener());
+        SkillHelper.startSkillByIntent("摇头", null, getListener());
         responder.respondSuccess();
     }
 
@@ -84,7 +78,7 @@ public class RecognitionUnInterrutibleSkill extends ProxySkill {
 
     @Override
     protected boolean onHeadTapEvent(KeyEvent keyEvent) {
-        stopSkill();
+//        stopSkill();
         return false;
     }
 
@@ -95,11 +89,11 @@ public class RecognitionUnInterrutibleSkill extends ProxySkill {
 
     @Override
     protected boolean isNeedWakeUpEvent() {
-        return true;
+        return false;
     }
 
     @Override
     protected boolean isNeedHeadTapEvent() {
-        return true;
+        return false;
     }
 }

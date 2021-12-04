@@ -24,15 +24,7 @@ public class ShowRubInfoActivity extends Activity {
         TextView textView1 = findViewById(R.id.name);
         textView1.setText(rubbish_name);
         TextView textView2 = findViewById(R.id.info);
-
-        //调取相关的垃圾分类知识,并将其放入下面的text中
-        /*
-
-
-
-         */
-        //
-        textView2.setText("");
+        textView2.setText(RubbishKnowledge.get(rubbish_name));
     }
 
     public void say(View view) {

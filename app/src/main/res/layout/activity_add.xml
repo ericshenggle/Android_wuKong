@@ -15,10 +15,10 @@
         <TextView
             android:id="@+id/tv"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="80dp"
             android:gravity="center"
             android:text="调取悟空摄像头进行垃圾识别"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:textColor="#516D2C"/>
 
         <TextView
@@ -36,7 +36,7 @@
             android:layout_height="300dp"
             android:src="@drawable/usercre"
             android:layout_gravity="center"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginTop="0dp"/>
 
         <Button
             android:id="@+id/btn_pic"
@@ -47,7 +47,7 @@
             android:textSize="20sp"
             android:textColor="#FFFFFF"
             android:background="@drawable/btn_selector"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="0dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -66,17 +66,35 @@
                 android:textSize="20sp"
                 android:textColor="#516D2C"/>
         </LinearLayout>
-
-        <Button
-            android:id="@+id/btn_recog"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="识别"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/btn_selector"
-            android:layout_marginTop="10dp"/>
+            android:layout_height="match_parent"
+            android:weightSum="2">
+            <Button
+                android:id="@+id/btn_recog"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/btn_selector"
+                android:gravity="center"
+                android:text="识别"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/btn_put"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/btn_selector"
+                android:gravity="center"
+                android:text="存入数据库"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/btn_info"
