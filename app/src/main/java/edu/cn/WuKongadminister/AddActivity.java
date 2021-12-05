@@ -9,6 +9,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import android.os.Handler;
+import android.os.Message;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -19,28 +21,21 @@ import android.widget.Toast;
 
 import com.ubtechinc.sauron.api.TakePicApi;
 import com.ubtechinc.skill.SkillHelper;
+import com.ubtrobot.commons.Priority;
 import com.ubtrobot.commons.ResponseListener;
-import com.ubtrobot.transport.message.CallException;
-import com.ubtrobot.transport.message.Request;
-import com.ubtrobot.transport.message.Response;
-import com.ubtrobot.transport.message.ResponseCallback;
+import com.ubtrobot.mini.voice.VoiceListener;
+import com.ubtrobot.mini.voice.VoicePool;
 
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -100,44 +95,28 @@ public class AddActivity extends Activity implements View.OnClickListener {
             setText("识别中");
             sentBitmap();
         } else if (v.getId() == R.id.btn_put) {
-            if (name.equals("")) {
-                Toast.makeText(this, "未识别完成请等待", Toast.LENGTH_SHORT).show();
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间
+            sdf.applyPattern("yyyy-MM-dd HH:mm:ss a");// a为am/pm的标记
+            Date date = new Date();// 获取当前时间
+            String time = sdf.format(new Date(date.getTime()));
+            Rubbish o = new Rubbish(time, name);
+            //创建数据库访问对象
+            RubbishDAO dao = new RubbishDAO(getApplicationContext());
+            //打开数据库
+            dao.open();
+            //执行数据库访问方法
+            long result1 = dao.addRubbish(o);
+            //关闭数据库
+            dao.close();
+            if (result1 > 0) {
+                SkillHelper.startSkillByPath("/demo_interruptible/startNod", null);
             } else {
-                Toast.makeText(this, "识别完成", Toast.LENGTH_SHORT).show();
-                TextView textView = findViewById(R.id.ans);
-                textView.setText(name);
-                boolean success = true;//是否识别成功
-                if (success) {
-                    SkillHelper.startSkillByPath("/demo_interruptible/startNod", null);
-                } else {
-                    SkillHelper.startSkillByPath("/demo_interruptible/startShake", null);
-                }
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间
-                sdf.applyPattern("yyyy-MM-dd HH:mm:ss a");// a为am/pm的标记
-                Date date = new Date();// 获取当前时间
-                String time = sdf.format(new Date(date.getTime() + (long) 8 * 60 * 60 * 1000));
-                Rubbish o = new Rubbish(time, name);
-                //创建数据库访问对象
-                RubbishDAO dao = new RubbishDAO(getApplicationContext());
-                //打开数据库
-                dao.open();
-                //执行数据库访问方法
-                long result1 = dao.addRubbish(o);
-                setText("识别完成");
-                //关闭数据库
-                dao.close();
-                // 调用语言播报Api
-                /*
-
-
-                 */
-                //将name播报出来
+                SkillHelper.startSkillByPath("/demo_interruptible/startShake", null);
             }
         } else if (v.getId() == R.id.btn_info) {
             if (!this.name.equals("1")) {
                 Intent intent = new Intent(AddActivity.this, ShowRubInfoActivity.class);
-                String[] item = name.split("/");
-                intent.putExtra("data", item[0]);
+                intent.putExtra("data", name);
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "未识别为垃圾不能查看更多信息", Toast.LENGTH_SHORT).show();
@@ -148,12 +127,40 @@ public class AddActivity extends Activity implements View.OnClickListener {
     }
 
     private void sentBitmap() {
+        @SuppressLint("HandlerLeak") Handler mHandler = new Handler(){
+
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (msg.what == 0) {//do something,refresh UI;
+                    setText("识别完成");
+                    Toast.makeText(AddActivity.this, "识别完成", Toast.LENGTH_SHORT).show();
+                    TextView textView = findViewById(R.id.ans);
+                    textView.setText(name);
+                    VoiceListener voiceListener = new VoiceListener() {
+                        @Override
+                        public void onCompleted() {
+                            Log.i(TAG, "===yuyin completed!!===");
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+                            Log.i(TAG, "===yuyin error!!===");
+                            Log.i(TAG, s);
+                        }
+                    };
+                    String[] item = name.split("/");
+                    VoicePool.get().playTTs("识别结果是：" + item[1] + ", 它的类别为" + item[0], Priority.HIGH, voiceListener);
+                }
+            }
+
+        };
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     //new一个访问的url
-                    URL url = new URL("http://192.168.20.36:8000");        //热点ip
+                    URL url = new URL("http://192.168.51.36:8000");        //热点ip
                     //创建HttpURLConnection 实例
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     //提交数据的方式
@@ -188,6 +195,7 @@ public class AddActivity extends Activity implements View.OnClickListener {
                         is.close();
                         os.close();
                         connection.disconnect();
+                        mHandler.sendEmptyMessage(0);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -27,16 +27,16 @@ public class RubbishKnowledge {
         String result;
         switch (type) {
             case "可回收物":
-                result = getRecoverable() + getMean() + getAdvantage();
+                result = getRecoverable();
                 break;
             case "厨余垃圾":
-                result = getKitchen() + getMean() + getAdvantage();
+                result = getKitchen();
                 break;
             case "有害垃圾":
-                result = getHarmful() + getMean() + getAdvantage();
+                result = getHarmful();
                 break;
             case "其他垃圾":
-                result = getOther() + getMean() + getAdvantage();
+                result = getOther();
                 break;
             default:
                 result = mean;
